@@ -2,6 +2,8 @@ package com.example.qrcodescanner;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -36,6 +38,8 @@ import static com.example.qrcodescanner.R.layout.detail_page;
 public class MainActivity extends Activity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     private Firebase mRef;
+    private AlertDialog.Builder notFound;
+    private AlertDialog notDialog;
 //    private SliderLayout imageSlider;
 
     @Override
@@ -71,7 +75,7 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultHan
     public void  checkDataBase(final String qrID){
         mRef = new Firebase("https://qrcodescanner-8506c.firebaseio.com/properties");
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final AlertDialog.Builder notFound = new AlertDialog.Builder(this);
+        notFound = new AlertDialog.Builder(this);
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshots) {
@@ -109,10 +113,23 @@ public class MainActivity extends Activity implements ZXingScannerView.ResultHan
                     }
                 }
                 if(!found){
-                    notFound.setTitle("no match found");
+                    notFound.setTitle("Sorry no match found. Please try again.");
                     notFound.setMessage(qrID);
-                    AlertDialog notDialog = notFound.create();
-                    notDialog.show();
+                    notDialog = notFound.create();
+                    notDialog.setButton(Dialog.BUTTON_POSITIVE,"OK", new DialogInterface.OnClickListener(){
+                        public void onClick(DialogInterface dialog, int id) {
+                            notDialog.cancel();
+                            setContentView(mScannerView);
+                            mScannerView.setResultHandler(MainActivity.this);
+                            mScannerView.startCamera();
+                        }
+                    });
+                    if(!notDialog.isShowing()){
+                        mScannerView.removeAllViews();
+                        mScannerView.stopCamera();
+                        notDialog.show();
+                    }
+
 
                 }
 
