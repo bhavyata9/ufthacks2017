@@ -3,7 +3,8 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <com.daimajia.slider.library.SliderLayout
         android:id="@+id/slider"
@@ -13,6 +14,12 @@
         custom:indicator_visibility="visible"
         custom:pager_animation_span="1100"
         android:layout_height="200dp"></com.daimajia.slider.library.SliderLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:text="Area: " />
 
 
 </LinearLayout>
