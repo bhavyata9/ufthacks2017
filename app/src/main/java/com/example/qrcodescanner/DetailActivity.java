@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -22,25 +23,65 @@ public class DetailActivity extends AppCompatActivity implements BaseSliderView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+        TextView t4=new TextView (this);
+        t4=(TextView)findViewById(R.id.textFive);
         Intent intent = getIntent();
         HashMap<String, String> info = (HashMap<String, String>)intent.getSerializableExtra("info");
         HashMap<String, String> image_maps = (HashMap<String, String>)intent.getSerializableExtra("images");
-        String area = info.get("area") + " sqft";
-        String price = "$ " +info.get("price");
+        String area = info.get("area");
+        t4.setText("Area: "+area+" sqft");
+
+        String price = info.get("price");
+        TextView t=new TextView (this);
+        t=(TextView)findViewById(R.id.textOne);
+        t.setText("$"+price);
+
         String type = info.get("type");
+        TextView t2=new TextView (this);
+        t2=(TextView)findViewById(R.id.textThree);
+        t2.setText("Type: "+type);
+
         String address = info.get("address");
+        TextView t1=new TextView (this);
+        t1=(TextView)findViewById(R.id.textTwo);
+        t1.setText(address);
+
+        TextView t11=new TextView (this);
+        t11=(TextView)findViewById(R.id.extra);
+        t11.setText("M1G2M5, Toronto, Ontario");
+
         String num_baths = info.get("num_baths");
+        TextView t5=new TextView (this);
+        t5=(TextView)findViewById(R.id.textSeven);
+        t5.setText("Bathrooms: "+num_baths);
+
         String num_beds = info.get("num_beds");
+        TextView t6=new TextView (this);
+        t6=(TextView)findViewById(R.id.textSix);
+        t6.setText("Bedrooms: "+num_beds);
+
         String parking_type = info.get("parking_type");
+        TextView t7=new TextView (this);
+        t7=(TextView)findViewById(R.id.textEight);
+        t7.setText("Parking Type: "+ parking_type);
+
         String basement = info.get("basement");
+        TextView t8=new TextView (this);
+        t8=(TextView)findViewById(R.id.textNine);
+
         if(basement.equals("true")){
-            basement = "Finsihed";
+            basement = "Finished";
         }else{
             basement = "Not Finished";
         }
+        t8.setText("Basement: "+ basement);
         String age = info.get("age")+ " years";
+        TextView t3=new TextView (this);
+        t3=(TextView)findViewById(R.id.textFour);
+        t3.setText("Age: "+age);
 
-        setContentView(R.layout.activity_detail);
+//        setContentView(R.layout.activity_detail);
         imageSlider = (SliderLayout)findViewById(R.id.slider);
         // creating HashMap
 
